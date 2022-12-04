@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2020.2\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\New_Space_Invaders.dir/objects.a
+C:\mingw64\mingw64\bin\ar.exe cr CMakeFiles\New_Space_Invaders.dir/objects.a @CMakeFiles\New_Space_Invaders.dir\objects1.rsp
+C:\mingw64\mingw64\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\New_Space_Invaders.dir/objects.a -Wl,--no-whole-archive  -o New_Space_Invaders.exe -Wl,--out-implib,libNew_Space_Invaders.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\New_Space_Invaders.dir\linklibs.rsp

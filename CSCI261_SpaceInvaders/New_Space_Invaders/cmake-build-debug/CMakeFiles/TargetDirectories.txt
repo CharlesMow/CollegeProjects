@@ -1,0 +1,3 @@
+C:/Users/Conce/Final_Project/New_Space_Invaders/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Conce/Final_Project/New_Space_Invaders/cmake-build-debug/CMakeFiles/SFML_Template.dir
+C:/Users/Conce/Final_Project/New_Space_Invaders/cmake-build-debug/CMakeFiles/rebuild_cache.dir
