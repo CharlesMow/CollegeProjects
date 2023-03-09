@@ -1,0 +1,6 @@
+https://www.makeuseof.com/send-outlook-emails-using-python/
+
+https://learn.microsoft.com/en-us/outlook/rest/get-started
+
+https://learn.microsoft.com/en-us/outlook/rest/
+
