@@ -1,59 +1,78 @@
-import express from 'express';
+import express, { json, Router } from 'express';
 import { v4 as uuidv4 } from 'uuid';
+import * as fs from 'node:fs/promises';
 
 const port = 3001;
 const app = express();
 
+const todosRouter = Router();
+
 // Use the JSON parsing middleware so we can access it via `req.body`
 app.use(express.json());
-
-
-
+app.use(todosRouter);
 
 // TODO: Attach your `todos` router here
 
-app.get("/todo", (req, res) => {
-  res.json({
-    id: uuidv4(),
-    description: "The get todo",
-    completed: false,	
-  });
-});
+todosRouter.get("/todo", async (req, res) => {
+  const directoryContents = await fs.readdir('storage/');
+  const allTodos = {
+    todos: [],
+    count: directoryContents.length
+  };
 
-app.get("/todo/:todoId", (req, res) => {
-  res.json({
-    id: uuidv4(),
-    description: "get for the todo:todoId thing",
-    completed: false,	
-  });
-});
+  for (const entry of directoryContents) {
+    const contents = await fs.readFile(`storage/${entry}`);
+    allTodos.todos.push(JSON.parse(contents));
+  }
 
-app.post("/todo", (req, res) => {
-  res.json({
-    id: uuidv4(),
-    description: "some sample task",
-    completed: false,	
-  });
-});
-
-app.put("/todo/:todoId", (req, res) => {
-  res.json({
-    id: uuidv4(),
-    description: "some sample task",
-    completed: false,	
-  });
-});
-
-app.delete("/todo/:todoId", (req, res) => {
-  res.json({
-    id: uuidv4(),
-    description: "some sample task",
-    completed: false,	
-  });
+  res.send(allTodos);
 });
 
 
+todosRouter.get("/todo/:todoId", async (req, res) => {
 
+const todoId = req.params.todoId;
+try {
+  const post = await fs.readFile(`storage/${todoId}.json`);
+  res.json(JSON.parse(post));
+} catch (e) {
+  console.log(e);
+  res.status(500);
+  res.send('');
+}
+});
+
+
+// creates a new json
+todosRouter.post("/todo", async (req, res) => {
+  const requestBody = req.body;
+  requestBody.id = uuidv4();
+  await fs.writeFile(`storage/${requestBody.id}.json`, JSON.stringify(requestBody));
+  res.status(201);
+  res.send('');
+
+});
+
+
+// updates an already existing json when given an id
+todosRouter.put("/todo/:todoId", async(req, res) => {
+
+  const todoId = req.params.todoId;
+  const requestBody = req.body;
+  requestBody.id = todoId;
+
+  await fs.writeFile(`storage/${todoId}.json`, JSON.stringify(requestBody));
+
+});
+
+
+todosRouter.delete("/todo/:todoId", async (req, res) => {
+  const todoId = req.params.todoId;
+  await fs.unlink(`storage/${todoId}.json`);
+  res.status(201);
+  res.send('');
+
+});
 
 
 
