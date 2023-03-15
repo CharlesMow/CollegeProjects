@@ -1,17 +1,19 @@
 import express, { json, Router } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import * as fs from 'node:fs/promises';
+import cors from 'cors';
+
 
 const port = 3001;
 const app = express();
+
 
 const todosRouter = Router();
 
 // Use the JSON parsing middleware so we can access it via `req.body`
 app.use(express.json());
+app.use(cors());
 app.use(todosRouter);
-
-// TODO: Attach your `todos` router here
 
 todosRouter.get("/todo", async (req, res) => {
   const directoryContents = await fs.readdir('storage/');
@@ -73,7 +75,6 @@ todosRouter.delete("/todo/:todoId", async (req, res) => {
   res.send('');
 
 });
-
 
 
 app.listen(port, () => {
