@@ -18,7 +18,7 @@ inputFile = list(csv.reader(open(sys.argv[1])))
 
 # print(inputFile)
 print(inputFile[1][4])
-print(len(inputFile))
+print(len(inputFile) - 1)
 
 connection = win32com.client.Dispatch('Outlook.Application')
 
@@ -26,9 +26,9 @@ connection = win32com.client.Dispatch('Outlook.Application')
 for i in range(len(inputFile) - 1):
     olmailitem = 0x0
     newmail = connection.CreateItem(olmailitem)
-    newmail.Subject = 'I can send emails with python!'
-    newmail.To = inputFile[i + 1][4]
-    newmail.Body= 'Hello, this is a test email to showcase how to send emails from Python and Outlook. And here is your code' + inputFile[1][0]
+    newmail.Subject = 'Ikon Promo Code'
+    newmail.To = inputFile[i + 1][3]
+    newmail.Body= 'Hi ' + inputFile[i + 1][0] + ' '+ inputFile[i + 1][1] + ',\n\nThank you for your interest in the Ikon Pass. Your unique discount code is:\n' + inputFile[i + 1][4] + '\nBest Regards,\n(person sending email)'
     newmail.Send()
 
 
