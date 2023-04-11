@@ -11,6 +11,7 @@ export default function Todos() {
           <Link to={`${todo.id}`}><h1>{todo.description}</h1></Link>
           <p>{todo.description}</p>
           <p>Completed: {String(todo.completed)}</p>
+          <input type="checkbox" readOnly={true} checked={todo.completed} />
         </div>
       ))}
     </>
