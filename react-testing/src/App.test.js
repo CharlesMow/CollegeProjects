@@ -1,6 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import App from "./App";
 import fetchMock from 'jest-fetch-mock';
+import { useEffect, useId } from "react";
 
 // This is a mock response object so that we're not actually making network requests
 const mockObject = {
@@ -22,7 +23,16 @@ describe("Testing App.js", () => {
   });
 
   // TODO: Render the <App /> and assert `users and their todos` is in the document via the `screen` object and the `getByText` method
-  it("renders without error", () => {});
+
+
+
+  it("renders without error", () => {
+    render(<App/>);
+    const linkElement = screen.getByText(/Users and their todos/i);
+    expect(linkElement).toBeInTheDocument();
+  
+
+  });
 
   // TODO: Use `fireEvent` to fire two events: a `change` event for the number input and a `submit` event for the form
   // TODO: Then, use `waitFor` for data to come into view when the fetch request has returned and modified state (hint: use the firstName or lastName as the text to get using `getByText`)
@@ -31,8 +41,12 @@ describe("Testing App.js", () => {
     render(<App />);
     const input = screen.getByRole("spinbutton");
     const form = screen.getByRole("form");
+    fireEvent.change(input, {target: { value: "17"}});
+    fireEvent.submit(form);
 
-    await waitFor(() => {});
+    await waitFor(() => screen.getByText(/Terry/i));
+
+
   });
 
   // TODO: Do the same as above, but ensure that the useEffect hook has a proper dependencies list so that the toHaveBeenCalled assertion passes
@@ -42,8 +56,27 @@ describe("Testing App.js", () => {
     const input = screen.getByRole("spinbutton");
     const form = screen.getByRole("form");
 
+    useEffect(() => {
+      if (id) {
+        setLoading(true);
+        fetch(`https://dummyjson.com/users/${userId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setUser(data);
+          fetch(`https://dummyjson.com/users/${userId}/todos`)
+            .then((response) => response.json())
+            .then((data) =>{          
+            setuserTodos(data);
+            setLoading(true);
+          });
+        });
+      }
+    }, [userId, fetchMock]);
+
+
     // HINT: Do the same as the above test
-    await waitFor(() => {});
+    await waitFor(() => screen.getByText(/Terry/i));
+
 
     // HINT: wait for some text from the todo array to come into view using getByText
     await waitFor(() => {});

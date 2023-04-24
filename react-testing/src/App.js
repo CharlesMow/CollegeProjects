@@ -6,7 +6,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [userTodos, setUserTodos] = useState([]);
 
-  throw new Error('fake error to find in the smoke test');
+  // throw new Error('fake error to find in the smoke test');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
